@@ -5,7 +5,7 @@ import unittest as unt
 
 
 
-from app.python import filter_odds, string_modifier
+from app.python.python_functions.python_examples import filter_odds, string_modifier
 
 
 
