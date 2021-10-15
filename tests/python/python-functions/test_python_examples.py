@@ -18,7 +18,7 @@ class FilterOddsTestScenarios:
         Complexity - 1/4
         '''
 
-        in_arg = [1, 2, 3, 4, 5, 6, 7, 8]
+        in_arg = [1, 2, 3, 4, 5, 6, 7]
 
         result = filter_odds(in_arg)
         expected = [2, 4, 6, 8]
