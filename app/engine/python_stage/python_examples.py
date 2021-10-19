@@ -1,7 +1,7 @@
 
 
 
-def filter_odds(in_list: list) -> list:
+def filter_odds(in_list):
 
     '''
     function that retrieves only the even numbers from a provided list
@@ -13,7 +13,7 @@ def filter_odds(in_list: list) -> list:
 
 
 
-def string_modifier(in_str: str) -> str:
+def string_modifier(in_str):
 
     '''
     function that from a received string filters out all the spaces between all the words 
@@ -22,6 +22,13 @@ def string_modifier(in_str: str) -> str:
     :param in_str: provided setence full of words separated by blank spaces
     '''
 
-    ans_list = [i[0].upper() for i in in_str.split('')]
+    ans_list = []
+
+    for i in in_str.split(' '):
+
+        split_word = list(i)
+        split_word[0] = split_word[0].upper()
+        ans_list.append("".join(split_word))
+    
 
     return ''.join(ans_list)

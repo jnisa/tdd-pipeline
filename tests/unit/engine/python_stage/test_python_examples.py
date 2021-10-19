@@ -1,17 +1,19 @@
 
 
 
-import unittest as unt
+import os
+import logging
+import unittest
 
 
 
-from app.python.python_functions.python_examples import filter_odds, string_modifier
+from app.engine.python_stage.python_examples import filter_odds, string_modifier
 
 
 
-class FilterOddsTestScenarios:
+class FilterOddsTestScenarios(unittest.TestCase):
 
-    def filter_odds_tc1():
+    def test_filter_odds_tc1(self):
 
         '''
         filter_odds - 1st Test Scenario
@@ -23,11 +25,11 @@ class FilterOddsTestScenarios:
         result = filter_odds(in_arg)
         expected = [2, 4, 6, 8]
 
-        return unt.assertListEqual(result, expected)
+        return self.assertListEqual(result, expected)
 
 
 
-    def filter_odds_tc2():
+    def test_filter_odds_tc2(self):
 
         '''
         filter_odds - 2nd Test Scenario
@@ -39,14 +41,14 @@ class FilterOddsTestScenarios:
         result = filter_odds(in_arg)
         expected = [12, 42, 2]
 
-        return unt.assertListEqual(result, expected)
+        return self.assertListEqual(result, expected)
 
 
 
 
-class StringModTestScenarios:
+class StringModTestScenarios(unittest.TestCase):
 
-    def string_modifier_tc1():
+    def test_string_modifier_tc1(self):
 
         '''
         string_modifier - 1st Test Scenario
@@ -58,10 +60,10 @@ class StringModTestScenarios:
         result = string_modifier(in_arg)
         expected = 'TodayIsAGoodDay'
 
-        return unt.assertMultiLineEqual(result, expected)
+        return self.assertMultiLineEqual(result, expected)
 
 
-    def string_modifier_tc2():
+    def test_string_modifier_tc2(self):
 
         '''
         string_modifier - 2nd Test Scenario
@@ -73,5 +75,5 @@ class StringModTestScenarios:
         result = string_modifier(in_arg)
         expected = 'YourCar.IS.Yellow'
 
-        return unt.assertMultiLineEqual(result, expected)
+        return self.assertMultiLineEqual(result, expected)
 
