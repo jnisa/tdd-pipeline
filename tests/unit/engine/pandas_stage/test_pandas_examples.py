@@ -3,6 +3,7 @@
 
 import unittest
 import pandas as pd
+from pandas._testing import assert_frame_equal
 
 
 
@@ -21,22 +22,22 @@ class DropNanRecordsTestScenarios(unittest.TestCase):
 
         data  = {
             'Name': ['Tay', 'Bonito', 'Marques', 'Ricardo'],
-            'Age': [23, None, 19, 50],
+            'Age': [23.0, None, 19.0, 50.0],
             'Position': ['Agile Enabler', 'Junior Data Engineer', 'DevOps', 'Data Engineer']
         }
 
         expected = {
             'Name': ['Tay', 'Marques', 'Ricardo'],
-            'Age': [23, 19, 50],
+            'Age': [23.0, 19.0, 50.0],
             'Position': ['Agile Enabler', 'DevOps', 'Data Engineer']
         }
 
 
         df = pd.DataFrame(data)
-        df_result = drop_nan_records(df)
-        df_expected = pd.DataFrame(expected)
+        df_result = drop_nan_records(df).reset_index(drop = True)
+        df_expected = pd.DataFrame(expected).reset_index(drop = True)
 
-        return self.assertEqual(df_result, df_expected)
+        return assert_frame_equal(df_result, df_expected)
 
     
     def test_drop_nan_records_tc2(self):
@@ -48,22 +49,22 @@ class DropNanRecordsTestScenarios(unittest.TestCase):
 
         data = {
             'Name': ['Tay', 'Bonito', 'Marques', None],
-            'Age': [23, None, 19, 50],
+            'Age': [23.0, None, 19.0, 50.0],
             'Position': ['Agile Enabler', 'Junior Data Engineer', None, 'Data Engineer']
         }
 
         expected = {
             'Name': ['Tay'],
-            'Age': [23],
+            'Age': [23.0],
             'Position': ['Agile Enabler']
         }
 
 
         df = pd.DataFrame(data)
-        df_result = pd.DataFrame(df)
-        df_expected = pd.DataFrame(expected)
+        df_result = drop_nan_records(df).reset_index(drop = True)
+        df_expected = pd.DataFrame(expected).reset_index(drop = True)
 
-        return self.assertEqual(df_result, df_expected)
+        return assert_frame_equal(df_result, df_expected)
 
 
 
@@ -78,27 +79,27 @@ class SchemaApprovalTestScenarios(unittest.TestCase):
 
         data = {
             'Name': ['Tay', 'Bonito', 'Marques', 'Ricardo'],
-            'Age': [23, '18', 19, 50],
+            'Age': [23.0, '18', 19.0, 50.0],
             'Position': ['Agile Enabler', 'Junior Data Engineer', 'DevOps', 'Data Engineer']
         }
 
         expected = {
             'Name': ['Tay', 'Marques', 'Ricardo'],
-            'Age': [23, 19, 50],
+            'Age': [23.0, 19.0, 50.0],
             'Position': ['Agile Enabler', 'DevOps', 'Data Engineer']
         }
 
         schema = {
             'Name': str,
-            'Age': int,
+            'Age': float,
             'Position': str
         }
 
         df = pd.DataFrame(data)
-        df_result = schema_approval(df, schema)
-        df_expected = pd.DataFrame(expected)
+        df_result = schema_approval(df, schema).reset_index(drop = True)
+        df_expected = pd.DataFrame(expected).reset_index(drop = True)
 
-        return self.assertEqual(df_result, df_expected)
+        return assert_frame_equal(df_result, df_expected)
 
 
     def test_schema_approval_tc2(self):
@@ -127,7 +128,7 @@ class SchemaApprovalTestScenarios(unittest.TestCase):
         }
 
         df = pd.DataFrame(data)
-        df_result = schema_approval(df, schema)
-        df_expected = pd.DataFrame(expected)
+        df_result = schema_approval(df, schema).reset_index(drop = True)
+        df_expected = pd.DataFrame(expected).reset_index(drop = True)
 
-        return self.assertEqual(df_result, df_expected)
+        return assert_frame_equal(df_result, df_expected)

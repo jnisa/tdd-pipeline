@@ -1,6 +1,6 @@
 
 
-
+import math
 import pandas as pd
 
 
@@ -13,7 +13,10 @@ def drop_nan_records(df):
     :param df: pandas dataframe to be analized
     '''
 
-    return [df.drop(df.iloc[i].to_list(), inplace = True) for i in df.shape[0] if None in df.iloc[i].to_list()]
+    drop_records = [i for i in range(df.shape[0]) \
+        if True in [str(v) == 'nan' or str(v) == 'None' for v in df.iloc[i].to_list()]]
+
+    return df.drop(drop_records)
 
 
 def schema_approval(df, schema):
