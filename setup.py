@@ -1,6 +1,17 @@
+
+
+
 from setuptools import setup
 from setuptools import find_packages
 
+
+# installation requirements
+INSTALL_REQUIRES = [
+    'pandas'
+]
+
+
+# setup the environment
 setup(
     name="tdd-pipeline",
     version="0.1",
@@ -9,5 +20,6 @@ setup(
     author="João Nisa",
     url="",
     include_package_data=True,
-    zip_safe=False
+    zip_safe=False,
+    install_requires = INSTALL_REQUIRES
 )

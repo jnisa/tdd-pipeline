@@ -4,6 +4,9 @@ python:
 script:
   - pytest
 
+before_install:
+  - "pip install pandas"
+
 notifications:
   email:
     recipients:

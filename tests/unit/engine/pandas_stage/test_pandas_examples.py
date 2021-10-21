@@ -35,7 +35,7 @@ class DropNanRecordsTestScenarios(unittest.TestCase):
 
         df = pd.DataFrame(data)
         df_result = drop_nan_records(df).reset_index(drop = True)
-        df_expected = pd.DataFrame(expected).reset_index(drop = True)
+        df_expected = pd.DataFrame(expected)
 
         return assert_frame_equal(df_result, df_expected)
 
@@ -62,7 +62,7 @@ class DropNanRecordsTestScenarios(unittest.TestCase):
 
         df = pd.DataFrame(data)
         df_result = drop_nan_records(df).reset_index(drop = True)
-        df_expected = pd.DataFrame(expected).reset_index(drop = True)
+        df_expected = pd.DataFrame(expected)
 
         return assert_frame_equal(df_result, df_expected)
 
@@ -96,10 +96,10 @@ class SchemaApprovalTestScenarios(unittest.TestCase):
         }
 
         df = pd.DataFrame(data)
-        df_result = schema_approval(df, schema).reset_index(drop = True)
-        df_expected = pd.DataFrame(expected).reset_index(drop = True)
+        df_result = schema_approval(df, schema)
+        df_expected = pd.DataFrame(expected)
 
-        return assert_frame_equal(df_result, df_expected)
+        return assert_frame_equal(df_result, df_expected, check_dtype = False)
 
 
     def test_schema_approval_tc2(self):
@@ -128,7 +128,7 @@ class SchemaApprovalTestScenarios(unittest.TestCase):
         }
 
         df = pd.DataFrame(data)
-        df_result = schema_approval(df, schema).reset_index(drop = True)
-        df_expected = pd.DataFrame(expected).reset_index(drop = True)
+        df_result = schema_approval(df, schema)
+        df_expected = pd.DataFrame(expected)
 
-        return assert_frame_equal(df_result, df_expected)
+        return assert_frame_equal(df_result, df_expected, check_dtype = False)
