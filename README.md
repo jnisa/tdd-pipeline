@@ -1,8 +1,41 @@
-## TDD stage
+## **TDD Pipeline - Python, Pandas, and PySpark**
 
-The purpose of this repository is too assure quality in our code along with all the development process. That can be achieve if along the way we perform unitary tests to all the functions produced, indenpendently of the programming language that we are using.
+#### **Versions**
+[![Generic badge](https://img.shields.io/badge/python-3.8-blue)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/pyspark-3.1.2-blue)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/pandas-1.2.4-blue)](https://shields.io/)
+#### **Coverage**
+[![Generic badge](https://img.shields.io/badge/macOS-passing-brightgreen)](https://shields.io/)
 
-For that matter three strands corresponding to the most used programming languages were created for Python, Java, and Scala.
+### **1. Intro**
+TDD (__Test Driven Development__) is a methodology that should be instantiated in any software development environment. 
 
-All in all, whenever we intend to create code for any specific pipeline we should consider using this repository and include multiple tests with different complexities in order to assure the compactness of our code when this gets to the production stage.
+The reason for this initiative bears on the following dimensions:
 
+- Applying it can reduce the existence of bugs by over 50%; 
+- New projects built with the TDD approach had smaller bugs to lines of code ratio than non-TDD ones;
+- Can increase the quality of the code;
+- Save costs, since we would be performing tests on local environments and by developing test cases with different complexities we would be reducing the number of times that we need to run pipelines on cloud environment;
+- Promote code reusability.
+
+Taking this into account, this pipeline was built so that the points mentioned above can be aligned with the scope of this project.
+### **2. Solution's Overview**
+The solution defined to address the points highlighted above and to improve our development pipeline gathers our most common use cases of our development path:
+- Test path fully dedicated to Python code and divided into the following distinct dimensions: 1) Python general code, 2) pandas use cases, and 3) PySpark;
+- Travis CI to guarantee validation of the code syntax and also to highlighted functions that are not passing to the tests they are submitted.  
+
+### **3. Depedencies/Plugins**
+```
+pip install pandas
+pip install pyspark
+```
+
+### **4. Project Tree**
+- `/app`
+This directory is fully dedicated to the code developed in the course of the project. This folder is then divided into three different dimensions as I probably mentioned already:
+1. `python` - that can be used to test any python function;
+2. `pandas` - whenever you want to test any pandas transformation;
+3. `pyspark` - whenever you want to test pyspark procedures.
+
+- `/tests`
+Where you should place multiple complex levels tests to the function on the developed on the app side.
