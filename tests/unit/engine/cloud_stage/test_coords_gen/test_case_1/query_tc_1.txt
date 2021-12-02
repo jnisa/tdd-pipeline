@@ -1,0 +1,4 @@
+SELECT workshop_id, create_timestamp, geox, geoy
+FROM "man_servicecare_workshops_country"
+WHERE isActive = false
+LIMIT 10;

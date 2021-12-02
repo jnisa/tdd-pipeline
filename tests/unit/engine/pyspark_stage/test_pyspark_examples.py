@@ -69,7 +69,7 @@ class TestScenarioRemoveNanRecords(SparkTestCase):
 
 class TestScenarioValidateGeoCoords(SparkTestCase):
 
-    def test_validate_geo_coordinates(self):
+    def test_validate_geo_coordinates_tc1(self):
 
         '''
         validate_geo_coordinates - 1st Test Case Scenario
@@ -95,7 +95,7 @@ class TestScenarioValidateGeoCoords(SparkTestCase):
         return self.assertDataFrameEqual(df_expected, df_result)
 
     
-    def test_validate_geo_coordinates(self):
+    def test_validate_geo_coordinates_tc2(self):
 
         '''
         validate_geo_coordinates - 2nd Test Case Scenario

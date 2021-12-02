@@ -5,3 +5,6 @@
 
 # VSCode configuration files
 .vscode
+
+# Cached python files
+__pycache__ 
