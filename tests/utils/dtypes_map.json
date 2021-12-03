@@ -1,0 +1,17 @@
+{
+    "tinyint": "ByteType",
+    "smallint": "ShortType",
+    "integer": "IntegerType",
+    "bigint": "LongType",
+    "float": "FloatType",
+    "double": "DoubleType",
+    "decimal": "DecimalType",
+    "string": "StringType",
+    "varchar": "StringType",
+    "binary": "BinaryType",
+    "boolean": "BooleanType",
+    "timestamp": "TimestampType",
+    "date": "DateType",
+    "array": "ArrayType",
+    "struct": "StructType"
+}

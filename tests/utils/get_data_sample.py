@@ -113,6 +113,9 @@ class getDataSample:
         self.data_store = {}
 
         for pid in list(self.execution_map.values()):
+            
+            print("PID Value: ", pid)
+
             time.sleep(0.5)
             data = subprocess.check_output(
                 'aws athena get-query-results --query-execution-id %s' %(pid),

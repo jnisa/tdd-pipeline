@@ -1,0 +1,4 @@
+SELECT *
+FROM man_vehicledatalake_dev_gluedatabase_rio_landing.man_servicecare_workshops_country
+WHERE isActive = false
+LIMIT 10
