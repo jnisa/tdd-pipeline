@@ -1,0 +1,11 @@
+workshop_id,is_training_workshop,country,operations,create_timestamp,geox,geoy,mobile_24,type,isactive,internet_visible,last_changed,year,month,day,hour
+FI0008,false,,"{truck:[], bus: [], van:[]}",1553230807577,0.0,0.0,false,,false,false,0,2021,11,25,12
+NL0024,false,,"{truck:[], bus: [], van:[]}",1565067606896,0.0,0.0,false,,false,false,0,2021,11,25,12
+GR0008,false,,"{truck:[], bus: [], van:[]}",1569906007993,0.0,0.0,false,,false,false,0,2021,11,25,12
+ES0086,false,,"{truck:[], bus: [], van:[]}",1573534807510,0.0,0.0,false,,false,false,0,2021,11,25,12
+AT1167,false,,"{truck:[], bus: [], van:[]}",1574744408211,0.0,0.0,false,,false,false,0,2021,11,25,12
+FR0085,false,,"{truck:[], bus: [], van:[]}",1580792409437,0.0,0.0,false,,false,false,0,2021,11,25,12
+PT0041,false,,"{truck:[], bus: [], van:[]}",1583298008419,0.0,0.0,false,,false,false,0,2021,11,25,12
+SE0025,false,,"{truck:[], bus: [], van:[]}",1584594006582,0.0,0.0,false,,false,false,0,2021,11,25,12
+IT0358,false,,"{truck:[], bus: [], van:[]}",1588568411403,0.0,0.0,false,,false,false,0,2021,11,25,12
+NO0070,false,,"{truck:[], bus: [], van:[]}",1588741207370,0.0,0.0,false,,false,false,0,2021,11,25,12

@@ -9,6 +9,11 @@ TO-DO list:
     if no:
         keep it as it is
 
+    IT IS NECESSARY
+    Solution:
+        aws athena get-query-execution --query-execution-id [QueryID]
+        sleepTime = CompletionDataTime - SubmissionDateTime
+
 2. change some the variables present in this file to configuration files 
 
 3. try to adapt a similar pipeline as this one to kafka
@@ -22,6 +27,7 @@ TO-DO list:
 
 
 
+import csv
 import ast
 import json
 import time
@@ -83,9 +89,10 @@ class getDataSample:
         and another one relative to the schema of that data
         '''
     
-        with open('/'.join([dir, 'data_sample.txt']), 'w') as data_file:
-            data_file.write(json.dumps(self.data))
-
+        with open('/'.join([dir, 'data_sample.csv']), 'w') as data_file:
+            writer = csv.writer(data_file)
+            writer.writerows(self.data)
+        
         with open('/'.join([dir, 'data_schema.txt']), 'w') as schema_file:
             schema_file.write(json.dumps(self.schema_extracted))
 
@@ -123,13 +130,13 @@ class getDataSample:
 
         for pid in list(self.execution_map.values()):
             
-            time.sleep(0.5)
+            time.sleep(1)
             data = subprocess.check_output(
                 'aws athena get-query-results --query-execution-id %s' %(pid),
                 shell=True
             )
             self.data_store[pid] = data
-            time.sleep(0.5)
+            time.sleep(1)
 
         return self
 

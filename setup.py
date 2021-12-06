@@ -8,7 +8,8 @@ from setuptools import find_packages
 # installation requirements
 INSTALL_REQUIRES = [
     'pandas',
-    'pyspark'
+    'pyspark',
+    'subprocess'
 ]
 
 
