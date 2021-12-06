@@ -1,0 +1,1 @@
+{"workshop_id": "varchar", "is_training_workshop": "boolean", "country": "varchar", "operations": "varchar", "create_timestamp": "bigint", "geox": "double", "geoy": "double", "mobile_24": "boolean", "type": "varchar", "isactive": "boolean", "internet_visible": "boolean", "last_changed": "bigint", "year": "varchar", "month": "varchar", "day": "varchar", "hour": "varchar"}

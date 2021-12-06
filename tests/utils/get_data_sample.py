@@ -21,6 +21,7 @@ TO-DO list:
 '''
 
 
+
 import ast
 import json
 import time
@@ -40,7 +41,14 @@ class getDataSample:
         self.listQueries()
         self.queryAWSData()
         self.getDataFromQuery()
-        self.writeDataSamples()
+
+        dirs_lst = ['/'.join(f.split('/')[:-1]) for f in self.files_lst]
+
+        for k in self.data_store.keys():
+            self.query_data = json.loads(self.data_store[k].decode('utf-8').replace("true", "\"true\""))
+            self.dataToLists()
+            self.schemaToDict()
+            self.writeDataFeatures(dirs_lst[list(self.data_store.keys()).index(k)])
 
     
     def listTestCases(self):
@@ -68,17 +76,18 @@ class getDataSample:
         return self
 
 
-    def writeDataSamples(self):
+    def writeDataFeatures(self, dir):
 
         '''
-        creates a file with the data samples retrieved from the queries defined
+        creates two files one relative to the data sample from the athena query
+        and another one relative to the schema of that data
         '''
+    
+        with open('/'.join([dir, 'data_sample.txt']), 'w') as data_file:
+            data_file.write(json.dumps(self.data))
 
-        dirs_lst = ['/'.join(f.split('/')[:-1]) for f in self.files_lst]
-
-        for dir in dirs_lst:
-            with open('/'.join([dir, 'data_sample.txt']), 'w') as convert_file:
-                convert_file.write(json.dumps(list(self.data_store.values())[dirs_lst.index(dir)].decode("utf-8")))
+        with open('/'.join([dir, 'data_schema.txt']), 'w') as schema_file:
+            schema_file.write(json.dumps(self.schema_extracted))
 
         return self
 
@@ -114,8 +123,6 @@ class getDataSample:
 
         for pid in list(self.execution_map.values()):
             
-            print("PID Value: ", pid)
-
             time.sleep(0.5)
             data = subprocess.check_output(
                 'aws athena get-query-results --query-execution-id %s' %(pid),
@@ -127,11 +134,43 @@ class getDataSample:
         return self
 
 
+    def dataToLists(self):
+
+        '''
+        convert a data set from a python dictionary to lists
+        '''
+
+        self.data = [
+            tuple([
+                value['VarCharValue']
+                for value in record['Data']
+            ])
+            for record in self.query_data['ResultSet']['Rows']
+        ]
+
+        return self
+
+
+    def schemaToDict(self):
+
+        '''
+        convert the resultant metadata from the athena cli query to a python dictionary
+        '''
+
+        self.schema_extracted = dict(
+            (c['Name'],
+                (c["Type"])
+            )
+            for c in self.query_data['ResultSet']['ResultSetMetadata']['ColumnInfo']
+        )
+
+        return self 
+
 
 # definition of the full path 
 ROOT_DIR = abspath(curdir)
-proj_path = ['tests', 'unit', 'engine', 'athena_stage']
-full_path = '/'.join([ROOT_DIR, '/'.join(proj_path)])
+proj_path = ['unit', 'engine', 'athena_stage']
+full_path = '/'.join(['/'.join(ROOT_DIR.split('/')[:-1]), '/'.join(proj_path)])
 
 # definition of the query output bucket location (configuration or text file)
 bucket_out = "s3://aws-athena-query-results-854474629353-eu-west-1/"

@@ -4,6 +4,7 @@
 [![Generic badge](https://img.shields.io/badge/python-3.8-blue)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/pyspark-3.1.2-blue)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/pandas-1.2.4-blue)](https://shields.io/)
+[![Generic badge](https://img.shields.io/badge/subprocess-0.0.8-blue)](https://shields.io/)
 #### **Coverage**
 [![Generic badge](https://img.shields.io/badge/macOS-passing-brightgreen)](https://shields.io/)
 
@@ -28,6 +29,7 @@ The solution defined to address the points highlighted above and to improve our 
 ```
 pip install pandas
 pip install pyspark
+pip install subprocess
 ```
 
 ### **4. Project Tree**
