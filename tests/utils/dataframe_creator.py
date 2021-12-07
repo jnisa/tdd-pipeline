@@ -1,7 +1,6 @@
 
 
 
-import pdb
 import ast
 import csv
 import json
@@ -26,28 +25,23 @@ master = 'local'
 spark = SparkSession.builder.appName(appName).master(master).getOrCreate()
 
 
-class SparkDFCreator:
+def SparkDFCreator(data_path, schema_path, json_map):
 
 
-    def __init__(self, csv_path, schema_path):
-
-        with open("/Users/joao.nisa/Desktop/Projects/tdd-pipeline/tests/utils/dtypes_map.json") as jsonFile:
-            jsonObject = json.load(jsonFile)
-            jsonFile.close()
-        
-        self.csv_path = csv_path
-        self.schema_path = schema_path
-        self.hive2spark = jsonObject
-        self.dispatcher = {
-            "StringType": StringType(),
-            "IntegerType": IntegerType(),
-            "ShortType": ShortType(),
-            "LongType": LongType(),
-            "DoubleType": DoubleType(),
-            "BooleanType": BooleanType(),
-            "DateType": DateType(),
-            "TimestampType": TimestampType()
-        }
+    with open(json_map) as jsonFile:
+        hive_to_spark = json.load(jsonFile)
+        jsonFile.close()
+    
+    dispatcher = {
+        "StringType": StringType(),
+        "IntegerType": IntegerType(),
+        "ShortType": ShortType(),
+        "LongType": LongType(),
+        "DoubleType": DoubleType(),
+        "BooleanType": BooleanType(),
+        "DateType": DateType(),
+        "TimestampType": TimestampType()
+    }
 
 
     def dataFromCSV(csv_path):
@@ -91,68 +85,25 @@ class SparkDFCreator:
         return df
 
 
-    def applySchema(df, schema):
+    def applySchema(df, schema, dispatcher, data_types_map):
 
         '''
         applies the schema from the metadata produced by the athena query 
         to the produced dataframe
         '''
 
-        with open("/Users/joao.nisa/Desktop/Projects/tdd-pipeline/tests/utils/dtypes_map.json") as jsonFile:
-            hive_to_spark = json.load(jsonFile)
-            jsonFile.close()
-
-        dispatcher = {
-            "StringType": StringType(),
-            "IntegerType": IntegerType(),
-            "ShortType": ShortType(),
-            "LongType": LongType(),
-            "DoubleType": DoubleType(),
-            "BooleanType": BooleanType(),
-            "DateType": DateType(),
-            "TimestampType": TimestampType()
-        }
-
         for k in schema:
 
             df = df.withColumn(
                 k, 
-                col(k).cast(dispatcher[hive_to_spark[schema[k]]]) 
+                col(k).cast(dispatcher[data_types_map[schema[k]]]) 
             )
 
         return df
 
+    data_sample = dataFromCSV(data_path)
+    data_schema = schemaFromTxt(schema_path)
+    df_raw = createSparkDF(data_sample)
+    df = applySchema(df_raw, data_schema, dispatcher, hive_to_spark)
 
-
-ROOT_DIR = "/Users/joao.nisa/Desktop/Projects/tdd-pipeline/tests/unit/engine/athena_stage/test_coords_validation"
-
-test_folder = "test_case_1"
-data_sample = ["data_sample.csv", "data_schema.txt"]
-
-
-'''
-df = SparkDFCreator(
-    "/".join([ROOT_DIR] + [test_folder, data_sample[0]]),
-    "/".join([ROOT_DIR] + [test_folder, data_sample[1]])
-)
-'''
-
-schema = SparkDFCreator.schemaFromTxt(
-    "/".join([ROOT_DIR] + [test_folder, data_sample[1]])
-)
-
-data = SparkDFCreator.dataFromCSV(
-    "/".join([ROOT_DIR] + [test_folder, data_sample[0]])
-)
-
-df = SparkDFCreator.createSparkDF(
-    data
-)
-
-final_df = SparkDFCreator.applySchema(
-    df,
-    schema
-)
-
-
-pdb.set_trace()
+    return df

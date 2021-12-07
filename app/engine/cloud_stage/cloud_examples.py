@@ -14,8 +14,7 @@ def coords_validation(df, coord_x, coord_y):
     :param coord_y: column id that possesses all the longitude values
     '''    
     
-    condition = (F.col(coord_x) > 15.5) & (F.col(coord_y) > 48.5)
-
-    df_ans = df.filter(~condition).select(df.columns)
+    condition = (F.col(coord_x) > 15.5) | (F.col(coord_y) > 48.5)
+    df_ans = df.filter(~condition)
 
     return df_ans
