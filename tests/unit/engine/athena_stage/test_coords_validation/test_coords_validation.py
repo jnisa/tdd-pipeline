@@ -1,5 +1,6 @@
 
 
+
 from os import curdir
 from os.path import abspath
 
@@ -30,14 +31,13 @@ class TestScenarioCoordsValidation(SparkTestCase):
         test_folder = ["tests", "unit", "engine", "athena_stage", "test_coords_validation", "test_case_1"]
         data_sample = ["data_sample.csv", "data_schema.txt"]
         data_expected = ["data_expected.csv", "data_exp_schema.txt"]
-        map_file = "/Users/joao.nisa/Desktop/Projects/tdd-pipeline/tests/utils/dtypes_map.json"
+        map_file = ["tests", "utils", "dtypes_map.json"]
 
-        
         df_result = coords_validation( 
             SparkDFCreator(
                 "/".join([ROOT_DIR] + test_folder + [data_sample[0]]),
                 "/".join([ROOT_DIR] + test_folder + [data_sample[1]]),
-                map_file
+                "/".join([ROOT_DIR] + map_file)
             ),
             "geox",
             "geoy"
@@ -46,7 +46,7 @@ class TestScenarioCoordsValidation(SparkTestCase):
         df_expected = SparkDFCreator(
             "/".join([ROOT_DIR] + test_folder + [data_expected[0]]),
             "/".join([ROOT_DIR] + test_folder + [data_expected[1]]),
-            map_file
+            "/".join([ROOT_DIR] + map_file)
         )
 
         return self.assertDataFrameEqual(df_result, df_expected)
