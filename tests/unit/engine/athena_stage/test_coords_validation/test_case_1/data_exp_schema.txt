@@ -1,0 +1,1 @@
+{"workshop_id": "varchar", "create_timestamp": "bigint", "geox": "double", "geoy": "double"}

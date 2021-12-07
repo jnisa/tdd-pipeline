@@ -1,13 +1,7 @@
 
-'''
-TO-DO list:
-
-1. change the values data type according to the schema obtained from the aws cli commands
-'''
 
 
 import pdb
-
 import ast
 import csv
 import json
@@ -24,6 +18,7 @@ from pyspark.sql.types import (
     DateType,
     TimestampType
 )
+from pyspark.sql.functions import col
 
 
 appName = 'PySpark Dataframe Creator'
@@ -54,72 +49,110 @@ class SparkDFCreator:
             "TimestampType": TimestampType()
         }
 
-        self.dataFromCSV()
-        self.schemaFromTxt()
-        self.createSchema()
-        df = self.createSparkDF()
 
-        pdb.set_trace()
-
-    
-    def createSchema(self):
-
-        '''
-        defines the schema from the metadata produced by the athena query
-        '''
-
-        self.schema = StructType([
-            StructField(k, self.dispatcher[self.hive2spark[self.schema_extracted[k]]])
-            for k in self.schema_extracted.keys() 
-        ])
-
-        return self
-
-
-    def createSparkDF(self):
-
-        '''
-        create a spark dataframe by iterating over each row from the athena query
-        '''
-
-        df = spark.createDataFrame(data=self.data)
-
-        return df
-
-
-    def dataFromCSV(self):
+    def dataFromCSV(csv_path):
 
         '''
         reads a csv file into a python datatype more friendly to be used on the creation 
         process of a pyspark dataframe 
         '''
 
-        with open(self.csv_path, 'r') as data_file:
-            self.data = list(csv.DictReader(data_file, delimiter = ","))
+        with open(csv_path, 'r') as data_file:
+            data = list(csv.DictReader(data_file, delimiter = ","))
 
         data_file.close()
 
-        return self
+        return data
 
-    
-    def schemaFromTxt(self):
+
+    def schemaFromTxt(schema_path):
 
         '''
         reads a txt file and extracts the schema from that file and converts it into a 
         python dictionary
         '''
 
-        with open(self.schema_path, 'r') as schema_file:
-            self.schema_extracted = ast.literal_eval(schema_file.read())
+        with open(schema_path, 'r') as schema_file:
+            schema_extracted = ast.literal_eval(schema_file.read())
 
         schema_file.close()
 
-        return self
+        return schema_extracted
+
+
+    def createSparkDF(df_data):
+
+        '''
+        create a spark dataframe by iterating over each row from the athena query
+        '''
+
+        df = spark.createDataFrame(data=df_data)
+
+        return df
+
+
+    def applySchema(df, schema):
+
+        '''
+        applies the schema from the metadata produced by the athena query 
+        to the produced dataframe
+        '''
+
+        with open("/Users/joao.nisa/Desktop/Projects/tdd-pipeline/tests/utils/dtypes_map.json") as jsonFile:
+            hive_to_spark = json.load(jsonFile)
+            jsonFile.close()
+
+        dispatcher = {
+            "StringType": StringType(),
+            "IntegerType": IntegerType(),
+            "ShortType": ShortType(),
+            "LongType": LongType(),
+            "DoubleType": DoubleType(),
+            "BooleanType": BooleanType(),
+            "DateType": DateType(),
+            "TimestampType": TimestampType()
+        }
+
+        for k in schema:
+
+            df = df.withColumn(
+                k, 
+                col(k).cast(dispatcher[hive_to_spark[schema[k]]]) 
+            )
+
+        return df
 
 
 
-dir = "/Users/joao.nisa/Desktop/Projects/tdd-pipeline/tests/unit/engine/athena_stage/test_coords_validation/test_case_1"
-data_file = dir + "/data_sample.csv"
-schema_file = dir + "/data_schema.txt"
+ROOT_DIR = "/Users/joao.nisa/Desktop/Projects/tdd-pipeline/tests/unit/engine/athena_stage/test_coords_validation"
 
-df_result = SparkDFCreator(data_file, schema_file)
+test_folder = "test_case_1"
+data_sample = ["data_sample.csv", "data_schema.txt"]
+
+
+'''
+df = SparkDFCreator(
+    "/".join([ROOT_DIR] + [test_folder, data_sample[0]]),
+    "/".join([ROOT_DIR] + [test_folder, data_sample[1]])
+)
+'''
+
+schema = SparkDFCreator.schemaFromTxt(
+    "/".join([ROOT_DIR] + [test_folder, data_sample[1]])
+)
+
+data = SparkDFCreator.dataFromCSV(
+    "/".join([ROOT_DIR] + [test_folder, data_sample[0]])
+)
+
+df = SparkDFCreator.createSparkDF(
+    data
+)
+
+final_df = SparkDFCreator.applySchema(
+    df,
+    schema
+)
+
+
+pdb.set_trace()
