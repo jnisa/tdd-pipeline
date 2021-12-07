@@ -46,6 +46,7 @@ class getDataSample:
         self.listTestCases()
         self.listQueries()
         self.queryAWSData()
+        # call the time function
         self.getDataFromQuery()
 
         dirs_lst = ['/'.join(f.split('/')[:-1]) for f in self.files_lst]
@@ -172,6 +173,19 @@ class getDataSample:
         )
 
         return self 
+
+    
+    def getBufferTime():
+
+        '''
+        defines the time needed to process the output of the queries performed to athena
+        '''
+
+        specs_command = 
+
+        return None
+
+
 
 
 # definition of the full path 
