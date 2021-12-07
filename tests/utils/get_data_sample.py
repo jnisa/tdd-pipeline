@@ -2,29 +2,13 @@
 '''
 TO-DO list:
 
-1. test the pipeline with bigger queries to study if it is necessary to adjust the sleeping times
-    if yes:
-        try to define the sleeping depeding on the number of records (probably this data can be obtained with another
-        aws cli command)
-    if no:
-        keep it as it is
+1. change some the variables present in this file to configuration files 
 
-    IT IS NECESSARY
-    Solution:
-        aws athena get-query-execution --query-execution-id [QueryID]
-        sleepTime = CompletionDataTime - SubmissionDateTime
+2. try to adapt a similar pipeline as this one to kafka
 
-2. change some the variables present in this file to configuration files 
+3. add some tests in scala as well
 
-3. try to adapt a similar pipeline as this one to kafka
-
-4. add some tests in scala as well
-
-5. readjust the way that the spark dataframe is written on a text file
-    a function to convert an output from the aws cli command into a pyspark dataframe needs to be created
-    save the schema in another file (https://stackoverflow.com/questions/56707401/save-schema-of-dataframe-in-s3-location)
 '''
-
 
 
 import csv
@@ -46,7 +30,7 @@ class getDataSample:
         self.listTestCases()
         self.listQueries()
         self.queryAWSData()
-        # call the time function
+        self.getBufferTime()
         self.getDataFromQuery()
 
         dirs_lst = ['/'.join(f.split('/')[:-1]) for f in self.files_lst]
@@ -129,15 +113,15 @@ class getDataSample:
 
         self.data_store = {}
 
-        for pid in list(self.execution_map.values()):
-            
-            time.sleep(1)
+        for idx, pid in enumerate(list(self.execution_map.values())):
+
+            time.sleep(self.buffer_times[idx])
             data = subprocess.check_output(
                 'aws athena get-query-results --query-execution-id %s' %(pid),
                 shell=True
             )
             self.data_store[pid] = data
-            time.sleep(1)
+            time.sleep(self.buffer_times[idx])
 
         return self
 
@@ -175,15 +159,23 @@ class getDataSample:
         return self 
 
     
-    def getBufferTime():
+    def getBufferTime(self):
 
         '''
         defines the time needed to process the output of the queries performed to athena
         '''
 
-        specs_command = 
+        self.buffer_times = [
+            ast.literal_eval(
+                subprocess.check_output(
+                    'aws athena get-query-execution --query-execution-id %s' %(pid),
+                    shell=True
+                ).decode('utf-8')
+            )['QueryExecution']['Statistics']['TotalExecutionTimeInMillis'] / 1000
+            for pid in list(self.execution_map.values())
+        ] 
 
-        return None
+        return self
 
 
 
