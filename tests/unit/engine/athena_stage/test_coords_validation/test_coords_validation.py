@@ -1,6 +1,7 @@
 
 
-
+import pdb
+import json
 from os import curdir
 from os.path import abspath
 
@@ -19,6 +20,20 @@ spark = SparkSession.builder.appName(appName).master(master).getOrCreate()
 
 class TestScenarioCoordsValidation(SparkTestCase):
 
+    def test_init(self):
+
+        ROOT_DIR = abspath(curdir)
+
+        with open("/".join([ROOT_DIR] + ["tests", "utils", "config_files", "config_file.json"])) as jsonFile:
+            self.configs = json.load(jsonFile)
+            jsonFile.close()
+
+        self.dt_map = "/".join([ROOT_DIR] + self.configs['map_file'])
+        self.data_prefix = [ROOT_DIR] + self.configs["test_path"] + ["CASE_ID"]
+
+        return self
+
+    
     def test_coords_validation_tc1(self):
 
         '''
@@ -26,27 +41,24 @@ class TestScenarioCoordsValidation(SparkTestCase):
         Complexity - 1/4
         '''
 
-        ROOT_DIR = abspath(curdir)
+        self.test_init()
 
-        test_folder = ["tests", "unit", "engine", "athena_stage", "test_coords_validation", "test_case_1"]
-        data_sample = ["data_sample.csv", "data_schema.txt"]
-        data_expected = ["data_expected.csv", "data_exp_schema.txt"]
-        map_file = ["tests", "utils", "dtypes_map.json"]
+        case_id = "test_case_1"
 
         df_result = coords_validation( 
             SparkDFCreator(
-                "/".join([ROOT_DIR] + test_folder + [data_sample[0]]),
-                "/".join([ROOT_DIR] + test_folder + [data_sample[1]]),
-                "/".join([ROOT_DIR] + map_file)
+                "/".join(self.data_prefix + [self.configs['data_files'][0]]).replace("CASE_ID", case_id),
+                "/".join(self.data_prefix + [self.configs['data_files'][1]]).replace("CASE_ID", case_id),
+                self.dt_map
             ),
             "geox",
             "geoy"
         )
 
         df_expected = SparkDFCreator(
-            "/".join([ROOT_DIR] + test_folder + [data_expected[0]]),
-            "/".join([ROOT_DIR] + test_folder + [data_expected[1]]),
-            "/".join([ROOT_DIR] + map_file)
+            "/".join(self.data_prefix + [self.configs['data_files'][2]]).replace("CASE_ID", case_id),
+            "/".join(self.data_prefix + [self.configs['data_files'][3]]).replace("CASE_ID", case_id),
+            self.dt_map
         )
 
         return self.assertDataFrameEqual(df_result, df_expected)

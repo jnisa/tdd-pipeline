@@ -1,14 +1,4 @@
 
-'''
-TO-DO list:
-
-1. change some the variables present in this file to configuration files 
-
-2. try to adapt a similar pipeline as this one to kafka
-
-3. add some tests in scala as well
-
-'''
 
 
 import csv
@@ -182,14 +172,13 @@ class getDataSample:
 
 
 
-# definition of the full path 
 ROOT_DIR = abspath(curdir)
-proj_path = ['unit', 'engine', 'athena_stage']
-full_path = '/'.join(['/'.join(ROOT_DIR.split('/')[:-1]), '/'.join(proj_path)])
 
-# definition of the query output bucket location (configuration or text file)
-bucket_out = "s3://aws-athena-query-results-854474629353-eu-west-1/"
+with open(ROOT_DIR + "/".join(["tests", "utils", "config_files", "config_file.json"])) as jsonFile:
+    configs = json.load(jsonFile)
+    jsonFile.close()
 
-
-# call class functions
-ds = getDataSample(full_path, bucket_out)
+ds = getDataSample(
+    [ROOT_DIR] + "/".join(configs['test_path']),  
+    [ROOT_DIR] + "/".join(configs['test_coords_validation']['output_bucket'])
+    )

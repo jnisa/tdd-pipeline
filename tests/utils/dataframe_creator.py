@@ -27,6 +27,14 @@ spark = SparkSession.builder.appName(appName).master(master).getOrCreate()
 
 def SparkDFCreator(data_path, schema_path, json_map):
 
+    '''
+    creates a pyspark dataframe from data stored on a csv and with schema mapped from hive to spark data types
+
+    :param data_path: path to the csv file where the data is stored
+    :param schema_path: path to the file that holds the schema that must be applied to the dataframe
+    :param json_map: json used to map data types between hive and spark
+    '''
+
 
     with open(json_map) as jsonFile:
         hive_to_spark = json.load(jsonFile)
