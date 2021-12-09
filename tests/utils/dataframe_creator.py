@@ -48,7 +48,9 @@ def SparkDFCreator(data_path, schema_path, json_map):
 
         '''
         reads a csv file into a python datatype more friendly to be used on the creation 
-        process of a pyspark dataframe 
+        process of a pyspark dataframe
+
+        :param csv_path: file where the data samples can be found
         '''
 
         with open(csv_path, 'r') as data_file:
@@ -64,6 +66,8 @@ def SparkDFCreator(data_path, schema_path, json_map):
         '''
         reads a txt file and extracts the schema from that file and converts it into a 
         python dictionary
+
+        :param schema_path: file that specifies the schema of the data sample collected from the cloud
         '''
 
         with open(schema_path, 'r') as schema_file:
@@ -78,6 +82,8 @@ def SparkDFCreator(data_path, schema_path, json_map):
 
         '''
         create a spark dataframe by iterating over each row from the athena query
+
+        :param df_data: is the variable that comprises all the data that should be on the data sample dataframe 
         '''
 
         df = spark.createDataFrame(data=df_data)
@@ -90,6 +96,11 @@ def SparkDFCreator(data_path, schema_path, json_map):
         '''
         applies the schema from the metadata produced by the athena query 
         to the produced dataframe
+
+        :param df: dataframe that comprises all the collected data from the cloud environment
+        :param schema: schema that will be applied to the already created dataframe
+        :param dispatcher: this variable allows the convertion between string to the data type function
+        :param data_types_map: variables that handles the map procedure between hive and spark data types
         '''
 
         for k in schema:

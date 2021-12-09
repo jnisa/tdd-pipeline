@@ -72,6 +72,8 @@ class getDataSample:
         '''
         creates two files one relative to the data sample from the athena query
         and another one relative to the schema of that data
+
+        :param dir: directory where the data samples and schemas can be found
         '''
     
         with open('/'.join([dir, 'data_sample.csv']), 'w') as data_file:

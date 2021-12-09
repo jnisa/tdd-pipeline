@@ -4,7 +4,7 @@
 from os import curdir
 from os.path import abspath
 
-from app.engine.cloud_stage.cloud_examples import coords_validation
+from app.engine.athena_stage.cloud_examples import coords_validation
 from tests.utils.dataframe_creator import SparkDFCreator
 
 from pyspark.sql import SparkSession
