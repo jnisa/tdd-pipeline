@@ -23,13 +23,14 @@ class TestScenarioCoordsValidation(SparkTestCase):
     def test_init(self):
 
         ROOT_DIR = abspath(curdir)
+        test_id = "test_coords_validation"
 
         with open("/".join([ROOT_DIR] + ["tests", "utils", "config_files", "config_file.json"])) as jsonFile:
             self.configs = json.load(jsonFile)
             jsonFile.close()
 
         self.dt_map = "/".join([ROOT_DIR] + self.configs['map_file'])
-        self.data_prefix = [ROOT_DIR] + self.configs["test_path"] + ["CASE_ID"]
+        self.data_prefix = [ROOT_DIR] + self.configs["test_path"] + [test_id, "CASE_ID"]
 
         return self
 

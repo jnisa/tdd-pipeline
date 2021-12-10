@@ -63,6 +63,5 @@ This folder contains python scripts that handle the following core procedures of
 
 In order to get this pipeline covering all the development scenarios, some additional work needs to be done, and it's important to highlight the following tasks:
 
-1. There's some loose variables that should be moved to configuration files and be readed from there;
-2. Try to find out some way to perform some tests to kafka;
-3. A Scala stage is also missing.
+1. Try to find out some way to perform some tests to kafka;
+2. A Scala stage is also missing.
