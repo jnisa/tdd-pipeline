@@ -174,11 +174,11 @@ class getDataSample:
 
 ROOT_DIR = abspath(curdir)
 
-with open(ROOT_DIR + "/".join(["tests", "utils", "config_files", "config_file.json"])) as jsonFile:
+with open("/".join([ROOT_DIR] + ["tests", "utils", "config_files", "config_file.json"])) as jsonFile:
     configs = json.load(jsonFile)
     jsonFile.close()
 
 ds = getDataSample(
-    [ROOT_DIR] + "/".join(configs['test_path']),  
-    [ROOT_DIR] + "/".join(configs['test_coords_validation']['output_bucket'])
+    "/".join([ROOT_DIR] + configs['test_path']),  
+    configs['test_coords_validation']['output_bucket']
     )

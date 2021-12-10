@@ -63,3 +63,33 @@ class TestScenarioCoordsValidation(SparkTestCase):
         )
 
         return self.assertDataFrameEqual(df_result, df_expected)
+
+
+    def test_coords_validation_tc2(self):
+
+            '''
+            coords_validation - 2nd Test Case Scenario
+            Complexity - 1/4
+            '''
+
+            self.test_init()
+
+            case_id = "test_case_2"
+
+            df_result = coords_validation( 
+                SparkDFCreator(
+                    "/".join(self.data_prefix + [self.configs['data_files'][0]]).replace("CASE_ID", case_id),
+                    "/".join(self.data_prefix + [self.configs['data_files'][1]]).replace("CASE_ID", case_id),
+                    self.dt_map
+                ),
+                "geox",
+                "geoy"
+            )
+
+            df_expected = SparkDFCreator(
+                "/".join(self.data_prefix + [self.configs['data_files'][2]]).replace("CASE_ID", case_id),
+                "/".join(self.data_prefix + [self.configs['data_files'][3]]).replace("CASE_ID", case_id),
+                self.dt_map
+            )
+
+            return self.assertDataFrameEqual(df_result, df_expected)

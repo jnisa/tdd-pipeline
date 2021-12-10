@@ -1,4 +1,4 @@
-SELECT *
+SELECT workshop_id, create_timestamp, geox, geoy 
 FROM man_vehicledatalake_dev_gluedatabase_rio_landing.man_servicecare_workshops_country
-WHERE isActive = false
-LIMIT 10
+WHERE isActive = true 
+LIMIT 20

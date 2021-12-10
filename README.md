@@ -64,4 +64,14 @@ This folder contains python scripts that handle the following core procedures of
 In order to get this pipeline covering all the development scenarios, some additional work needs to be done, and it's important to highlight the following tasks:
 
 1. Try to find out some way to perform some tests to kafka;
-2. A Scala stage is also missing.
+2. A Scala stage it's also missing;
+3. Find a way to manage the automatic adaptation of the aws credentials on each local environment;
+4. Optimizations on the configuration file:
+
+<ul>
+    1. at this moment, we have a output bucket - for the queries performed - transversal to every test case and it must be something that is automatically adapted from the existent tests;
+</ul>
+
+5. Optimization in terms of performance (ex. study the implementation of `boto` instead of having the `subprocess`);
+6. Make heavy-weight test to the pipeline, to see how it behaves on exaustive and exception scenarios;
+7. Study the option of splitting this into different repositories or have a switch to only perform specific tests, in order to optimize the runtime of the performed tests.

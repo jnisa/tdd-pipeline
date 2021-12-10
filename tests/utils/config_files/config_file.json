@@ -1,7 +1,7 @@
 {
     "root_dir": "abspath(curdir)",
     "map_file": ["tests", "utils", "config_files", "dtypes_map.json"],
-    "data_files": ["data_sample.csv", "data_schema.txt", "data_expected.csv", "expected_schema.txt"],
+    "data_files": ["data_sample.csv", "data_schema.txt", "expected_data.csv", "expected_schema.txt"],
     "test_path": ["tests", "unit", "engine", "athena_stage"],    
     "test_coords_validation": {
         "output_bucket": "s3://aws-athena-query-results-854474629353-eu-west-1/"
